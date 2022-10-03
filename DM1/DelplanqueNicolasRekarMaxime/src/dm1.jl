@@ -2,11 +2,18 @@
    your own folder is considered as the current working directory
    for running your solver
 =#
+import Pkg; 
+Pkg.add("JuMP")
+Pkg.add("GLPK")
 
+include("outils.jl")
+include("voisinage.jl")
+include("construct.jl")
+include("ameliore.jl")
 include("../../../libSPP/librarySPP.jl")
 
 function main()
-    println("Etudiant(e)s : nom1 et nom2")
+    println("Etudiants : Delplanque Nicolas et Rekar Maxime")
 
     # Collecting the names of instances to solve located in the folder Data ----
     target = "../../../Data"
