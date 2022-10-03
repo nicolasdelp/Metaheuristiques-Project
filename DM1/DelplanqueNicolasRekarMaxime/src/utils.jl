@@ -5,9 +5,10 @@ function PrintMatrix(matrix, io)
     end
 end
 
-function zeroColonne(matrix, ind)
-    for i in 1:size(matrix)[1] # S'il y a un 1 dans la colonne du minimum ratio, on supprime la ligne de la matrice de contraine (mettre des 0 partout sur la ligne)
-        if (matrix[Int64(i), ind] == 1)
+# Passe à 0 toute les lignes ayant un 1 dans la colonne n
+function zeroColonne(matrix, n)
+    for i in 1:size(matrix)[1]
+        if (matrix[Int64(i), n] == 1)
             for j in 1:size(matrix)[2]
                 matrix[Int64(i), Int64(j)] = 0
             end
@@ -16,6 +17,7 @@ function zeroColonne(matrix, ind)
     return matrix
 end
 
+# Calcule la valeur de Z
 function CalculZ(x, C)
     z = 0
     for i in 1:size(x)[2]
@@ -24,9 +26,10 @@ function CalculZ(x, C)
     return z
 end
 
-function verifA(A,ind)
+# Vérifie que toute la matrice de contrainte est à 0
+function verifA(A,io)
     vecRet = zeros(Int, size(A,1))
-    
+    bool = false
     println(vecRet)
     for i in 1:size(A)[1]
         stop = false
@@ -39,11 +42,17 @@ function verifA(A,ind)
             j = j+1
         end
     end
+    test = zeros(Int,size(A)[1])
+    if(vecRet == test)
+        println(io,"Toutes conditions respectées")
+        bool = true
+    end
     println(vecRet)
-    return vecRet
+    return vecRet, bool
 
 end
 
+# TODO
 function solucePossible(C, A, x)
     # println("_________________")
     # println(x)

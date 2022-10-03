@@ -75,7 +75,7 @@ function GreedyConstruction(C, A, io)
         println(io,"Solution : ", sol)
         z = CalculZ(sol, C)
         println(io,"Z = ", z)
-        solucePossible(C,A,sol)
+        # solucePossible(C,A,sol)
         isAdmissible(C,newA,sol)
     end
     return sol, z
@@ -84,14 +84,30 @@ end
 function GreedyImprovement(C, A, x, zInit, io)
     PrintMatrix(A,io)
     o = zeros(size(A)[1], size(A)[2])
+    k = ones(1,size(A)[2])
+    isAdmissible(C,A,k)
     o[1,3]= 1
     o[4,2]= 1
     o[3,3]= 1
-    zeroColonne(o,3)
-    PrintMatrix(o,io)
-    verifA(o,0)
-    for i in 1:size(x)[2]
+    #zeroColonne(o,3)
+    #PrintMatrix(o,io)
+    #verifA(o,0)
+    for i in 1:size(x)[2] #Parcours de la solution
+        if(x[i]==1)
+            xx = deepcopy(x) #copie de la solution
+            matA = deepcopy(A) #copie matrice originel
+            xx[1,i]=0
+            for j in 1:size(xx)[2] #parcours la solution copié
+                if(xx[j]==1)
+                    zeroColonne(matA,j)
+                end
+            end
+            verifA(matA,io)
+            
+            isAdmissible(C,matA,xx)
+        end
     end
+    
 
     
 end
@@ -125,6 +141,8 @@ function main()
         println(io, "-------------------------------------------")
         println(io, "-------------------------------------------")
 
+
+        
         GreedyImprovement(C, initA, x, z, io)
         
         #=
@@ -134,7 +152,7 @@ function main()
         =#
 
         # Saving results -------------------------------------------------------
-        println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2," salut")
+        println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)
     end
     close(io)
 
