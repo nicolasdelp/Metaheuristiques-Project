@@ -2,8 +2,11 @@
    your own folder is considered as the current working directory
    for running your solver
 =#
+import Pkg; 
+Pkg.add("JuMP")
+Pkg.add("GLPK")
 
-include("../../../libSPP/librarySPP.jl")
+include("../LibSPP/librarySPP.jl")
 include("prints.jl")
 include("modelSPP.jl")
 include("heuristics.jl")
@@ -15,7 +18,7 @@ function main()
     println("Etudiant(e)s : HALIMI et MERCIER")
 
     # Collecting the names of instances to solve located in the folder Data ----
-    target = "../../../Data"
+    target = "../Data"
     fnames = getfname(target)
 
     fres = splitdir(splitdir(pwd())[end-1])[end]

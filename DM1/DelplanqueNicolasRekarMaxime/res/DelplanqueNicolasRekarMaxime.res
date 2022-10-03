@@ -1,1 +1,1 @@
-didactic.dat 0 0 0.0 0.0 0.0 salut
+didactic.dat 0 0 0.0 0.0 0.0
