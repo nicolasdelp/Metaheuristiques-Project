@@ -81,12 +81,14 @@ function GreedyConstruction(C, A)
         println("Solution : ", sol)
         z = CalculZ(sol, C)
         println("Z = ", z)
+        isAdmissible(C,A,sol)
     end
 
     return sol, z
 end
 
 function GreedyImprovement(C, A, x, zInit)
+    return 
     
 end
 
@@ -122,7 +124,7 @@ function main()
         =#
 
         # Saving results -------------------------------------------------------
-        println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)
+        println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2," salut")
     end
     close(io)
 
