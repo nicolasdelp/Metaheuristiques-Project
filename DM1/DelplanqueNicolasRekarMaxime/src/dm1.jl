@@ -18,7 +18,7 @@ function isTheEnd(A)
     return fin
 end
 
-function GreedyConstruction(C, A)
+function GreedyConstruction(C, A, io)
     sol = zeros(1, size(A)[2]) # Solution trouvée de retour pour ce SPP
     z = 0
     sumMatrix = Vector{Int64}(undef, size(A)[2]) # Somme des 1 de chaque colonne de la matrice de contraintes
@@ -56,25 +56,35 @@ function GreedyConstruction(C, A)
             end
         end
 
-        println("=======================================================")
-        println("Sum of each colums : ")
-        println(sumMatrix)
-        println("Ratio of each colums : ")
-        println(ratioMatrix)
-        println("Minimum ratio : ", minimumRatio)
-        println("Minimum ratio index : ", minimumRatioIndex)
-        # PrintMatrix(newA)
-        println("Solution : ", sol)
+        println(io,"=======================================================")
+        println(io,"Sum of each colums : ")
+        println(io,sumMatrix)
+        println(io,"Ratio of each colums : ")
+        println(io,ratioMatrix)
+        println(io,"Minimum ratio : ", minimumRatio)
+        println(io,"Minimum ratio index : ", minimumRatioIndex)
+        PrintMatrix(newA, io)
+        println(io,"Solution : ", sol)
         z = CalculZ(sol, C)
-        println("Z = ", z)
+        println(io,"Z = ", z)
+        solucePossible(C,A,sol)
         isAdmissible(C,A,sol)
     end
-
     return sol, z
 end
 
-function GreedyImprovement(C, A, x, zInit)
-    return 
+function GreedyImprovement(C, A, x, zInit, io)
+    PrintMatrix(A,io)
+    o = zeros(size(A)[1], size(A)[2])
+    o[1,3]= 1
+    o[4,2]= 1
+    o[3,3]= 1
+    zeroColonne(o,3)
+    PrintMatrix(o,io)
+    verifA(o,0)
+    for i in 1:size(x)[2]
+    end
+
     
 end
 
@@ -91,18 +101,24 @@ function main()
 
         # Load one numerical instance ------------------------------------------
         C, A = loadSPP(string(target,"/",fnames[instance]))
-
+        initA = copy(A)
+        #PrintMatrix(io, initA)
         zInit = 0 ; zBest = 0 ; t1 =0.0 ; t2 = 0.0
 
         # Display data informations
-        println("Objective function : ")
-        println(C)
+        println(io,"Objective function : ")
+        println(io,C)
 
-        println("Constraint matrix : ")
-        PrintMatrix(A)
+        println(io,"Constraint matrix : ")
+        PrintMatrix(A, io)
 
-        GreedyConstruction(C, A)
+        x,z = GreedyConstruction(C, A, io)
 
+        println(io, "-------------------------------------------")
+        println(io, "-------------------------------------------")
+
+        GreedyImprovement(C, initA, x, z, io)
+        
         #=
          votre code :
          t1 = @elapsed x, zInit = GreedyConstruction(C, A)
