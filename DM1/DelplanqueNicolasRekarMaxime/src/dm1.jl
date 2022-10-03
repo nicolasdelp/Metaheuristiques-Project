@@ -24,7 +24,7 @@ function GreedyConstruction(C, A)
     ratioMatrix = Vector{Float64}(undef, size(A)[2]) # Somme pondérée par les facteurs de la fonction objectif
     sol = zeros(1, size(A)[2]) # Solution a retourner
     z = 0 # Valeur de la fonction objectif
-    newA = A
+    newA = copy(A)
 
     while !isTheEnd(newA)
         minimumRatio = -1 # Ratio minimum de la matrice A
@@ -75,7 +75,7 @@ function GreedyConstruction(C, A)
         println("Solution : ", sol)
         z = CalculZ(sol, C)
         println("Z = ", z)
-        isAdmissible(C, A, sol)
+        isAdmissible(C, newA, sol)
     end
 
     return sol, z
@@ -108,8 +108,10 @@ function main()
         println("Constraint matrix : ")
         PrintMatrix(A)
 
+        
         GreedyConstruction(C, A)
 
+        println(A)
         #=
          votre code :
          t1 = @elapsed x, zInit = GreedyConstruction(C, A)
