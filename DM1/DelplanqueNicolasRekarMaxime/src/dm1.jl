@@ -76,7 +76,7 @@ function GreedyConstruction(C, A, io)
         z = CalculZ(sol, C)
         println(io,"Z = ", z)
         solucePossible(C,A,sol)
-        isAdmissible(C,A,sol)
+        isAdmissible(C,newA,sol)
     end
     return sol, z
 end
