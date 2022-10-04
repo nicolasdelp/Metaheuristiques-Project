@@ -33,8 +33,8 @@ function main()
 
         zInit = 0 ; zBest = 0 ; t1 =0.0 ; t2 = 0.0
 
-        t1 = @elapsed x, zInit = GreedyConstruction(C, A)
-        t2 = @elapsed xbest, zBest = GreedyImprovement(C, A, x, zInit)
+        t1 = @elapsed x, zInit = greedyConstruction(C, A)
+        t2 = @elapsed xbest, zBest = greedyImprovement(C, A, x, zInit, io)
         
         # Saving results -------------------------------------------------------
         println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)

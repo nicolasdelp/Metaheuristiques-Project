@@ -1,4 +1,12 @@
-function GreedyConstruction(C, A)
+#=
+    Construction de notre première solution x_0 en utilisant l'algorithme glouton
+    @C : la fonction objectif
+    @A : la matrice des contraintes
+    -----
+    @return x notre première solution x_0
+    @return zInit la valeur de z calculé à partir de notre x_0 trouvé
+=#
+function greedyConstruction(C, A)
     #Premiere étape : calculer les ratios
     ratios = zeros(1,size(A)[2])
     ratios = calculRatios(C,A)
@@ -13,12 +21,11 @@ function GreedyConstruction(C, A)
             x[i]=0
         end
     end
-    println(x)
+    #println(x)
     isPossible(A, x)
 
     #Troisième étape : calculer la fonction objectif obetnue
     zInit = calculZ(C,x)
 
-    #Return
     return x, zInit
 end
