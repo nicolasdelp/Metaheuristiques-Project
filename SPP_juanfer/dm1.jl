@@ -22,7 +22,7 @@ function main()
     fnames = getfname(target)
 
     fres = splitdir(splitdir(pwd())[end-1])[end]
-    io = open("../res/"*fres*".res", "w")
+    io = open("res/"*fres*".res", "w")
 
     tt = 0.0; score = 0; nb_amel = 0
 

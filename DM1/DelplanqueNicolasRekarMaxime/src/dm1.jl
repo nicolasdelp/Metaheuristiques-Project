@@ -6,10 +6,10 @@ import Pkg;
 Pkg.add("JuMP")
 Pkg.add("GLPK")
 
-include("outils.jl")
-include("voisinage.jl")
-include("construct.jl")
-include("ameliore.jl")
+include("tools.jl")
+include("neighbors.jl")
+include("construction.jl")
+include("improvement.jl")
 include("../../../libSPP/librarySPP.jl")
 
 function main()
@@ -25,15 +25,17 @@ function main()
 
         # Load one numerical instance ------------------------------------------
         C, A = loadSPP(string(target,"/",fnames[instance]))
+        # println("Objective function : ")
+        # println(C)
+
+        # println("Constraint matrix : ")
+        # printMatrix(A)
 
         zInit = 0 ; zBest = 0 ; t1 =0.0 ; t2 = 0.0
 
-        #=
-         votre code :
-         t1 = @elapsed x, zInit = GreedyConstruction(C, A)
-         t2 = @elapsed xbest, zBest = GreedyImprovement(C, A, x, zInit)
-        =#
-
+        t1 = @elapsed x, zInit = GreedyConstruction(C, A)
+        t2 = @elapsed xbest, zBest = GreedyImprovement(C, A, x, zInit)
+        
         # Saving results -------------------------------------------------------
         println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)
     end

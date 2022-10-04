@@ -72,7 +72,8 @@ function feasible(A, x)
     m, n = size(A)
     condCheck = zeros(Int64, m)
     feasible = true
-
+    println(length(x))
+    println("================================")
     for i=1:length(x)
         if x[i] == 1
             condCheck = condCheck + A[:,i]
