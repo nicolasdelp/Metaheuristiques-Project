@@ -1,14 +1,14 @@
 function calculRatios(C, A)
     ratios = zeros(1,size(A)[2])
-    #println(size(A)[1])
-    for i in 1:size(A)[1]#Pour chaque contrainte
+    for i in 1:size(A)[2]#Pour chaque valeur de x
         sum = 0
-        for j in 1:size(A)[2] #Pour chaque valeur de x dans la contrainte
-            sum = sum + A[i,j]
+        for j in 1:size(A)[1] #Pour chaque contrainte de x dans la contrainte
+            sum = sum + A[j,i]
         end
-        #ratios[i] = sum/C[]
+        ratios[i] = C[i]/sum        
     end
-    return ratios
+    descRatios=sortperm(vec(ratios), rev = true) # renvoie un tableau des indices des valeurs triées
+    return descRatios
 end
 
 function calculZ(C, x)
@@ -26,17 +26,17 @@ function printMatrix(matrix)
 end
 
 function isPossible(A, x)
-    cumul = zeros(1,size(A)[2])
+    cumul = zeros(1,size(A)[1])
     possible = true
     
-    for i in 1:size(x)[2] # Parcourir x
-        if (x[i] == 1) # Si x = 1, on enregistre la contrainte dans le cumul
-            for j in 1:size(A)[2]
-                cumul[1,j] = cumul[1,j] + A[i,j]
+    for i in 1:size(x)[1] # Parcourir x (9)
+        if (x[i] == 1) # Si x = 1, on enregistre la colonne dans le cumul
+            for j in 1:size(A)[1]
+                cumul[1,j] = cumul[1,j] + A[j,i]
             end
         end
     end
-
+    println(cumul)
     for i in 1:size(cumul)[2] # Vérifie que les cumulés soient <= 1
         if(cumul[1,i]>1)
             possible = false
