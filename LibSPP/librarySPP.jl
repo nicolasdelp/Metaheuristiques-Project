@@ -1,4 +1,4 @@
-# --------------------------------------------------------------------------- #
+    # --------------------------------------------------------------------------- #
 # collect the un-hidden filenames available in a given folder
 
 function getfname(pathtofolder)
@@ -31,7 +31,7 @@ end
 # Loading an instance of SPP (format: OR-library)
 
 function loadSPP(fname)
-
+    print(fname)
     f=open(fname)
     # lecture du nbre de contraintes (m) et de variables (n)
     m, n = parse.(Int, split(readline(f)) )
