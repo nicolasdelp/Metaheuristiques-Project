@@ -29,7 +29,6 @@ function oneToOne!(C,A,x,zInit,io)
     z = -1
     i = 1 
     while(i != size(x)[2])
-        i = 1
         stop = false
         while(!stop && (i != size(x)[2]))
             if(x[i]==1)
@@ -67,21 +66,25 @@ function oneToOne!(C,A,x,zInit,io)
 end
 
 #twoToOne : change 2 variable 1 à 0, et 1 variables 0 à 1
-function twoToOne!(C,A,x,io)
+function twoToOne!(C,A,x,zInit,io)
     z = -1
-    i = 1 
+    i = 1
     while(i != size(x)[2])
-        i = 1
         stop = false
+        #println(io,"boucle de base, size(x) = ",size(x)[2], " i = ", i)
         while((i != size(x)[2]) && !stop)
+            #println(io,"parcours i, size(x) = ",size(x)[2], " i = ", i)
             if(x[i]==1) #Selection premier var à 1 à 0 
                 #println(io,"I : Tentative de passer x",i," à 0")
                 x[i]=0
                 k = i+1
                 while((k != size(x)[2]) && !stop)
+                    #println(io,"parcours k, size(x) = ",size(x)[2], " k = ", k)
+
                     if(x[k]==1) #selection seconde var à 1 à 0
                         j = 1
-                        while((j != size(x)[2])&& !stop  )
+                        #println(io,"parcours j, size(x) = ",size(x)[2], " j = ", j)
+                        while((j != size(x)[1])&& !stop  )
                             if(x[j]==0 && j != i && j != k)
                                 x[j]=1
                                 z = calculZ(C,x)
@@ -109,6 +112,7 @@ function twoToOne!(C,A,x,io)
             end
             i=i+1
         end
+        
     end
 
     return z

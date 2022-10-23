@@ -11,6 +11,7 @@ include("neighbors.jl")
 include("construction.jl")
 include("improvement.jl")
 include("../../../libSPP/librarySPP.jl")
+include("grasp.jl")
 
 function main()
     println("Etudiants : Delplanque Nicolas et Rekar Maxime")

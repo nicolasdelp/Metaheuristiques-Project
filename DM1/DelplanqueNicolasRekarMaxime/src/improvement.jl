@@ -33,7 +33,7 @@ function greedyImprovement(C, A, x, zInit, io)
     end
 
     #On utilise troisième heuristique 2-1
-    zTest = twoToOne!(C,A,xTest)
+    zTest = twoToOne!(C,A,xTest,zInit,io)
     if(zTest > zBest)
         xBest = copy(xTest)
         println("Modification x et zBest")
