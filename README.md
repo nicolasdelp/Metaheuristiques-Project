@@ -1,4 +1,4 @@
-# Projet de Métaheuristiques
+# M1 ORO - Projet de Métaheuristiques
 
 Métaheuristiques (XII2030) - Prof. Xavier Gandibleux
 
