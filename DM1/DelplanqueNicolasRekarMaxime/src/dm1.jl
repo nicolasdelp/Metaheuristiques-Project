@@ -13,6 +13,7 @@ include("tools.jl")
 include("neighbors.jl")
 include("construction.jl")
 include("improvement.jl")
+include("reactiveGRASP.jl")
 include("../../../libSPP/librarySPP.jl")
 include("grasp.jl")
 
@@ -56,11 +57,11 @@ function main()
 
             t1 = @elapsed x, zInit = greedyRandomizer(0 ,C, A,io)
             t2 = @elapsed xbest, zBest = greedyImprovement(C, A, x, zInit, io)
+            
             # Saving results -------------------------------------------------------
-
             println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)       
         end
-        println(io,"____________________________________________")
+        #println(io,"____________________________________________")
     end
     close(io)
 

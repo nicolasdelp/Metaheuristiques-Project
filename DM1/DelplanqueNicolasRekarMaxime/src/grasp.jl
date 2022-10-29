@@ -31,7 +31,6 @@ function greedyRandomizer(alpha, C, A,io)
         calculRCL(util, RCL, lim)
 #=
         println(io,"---------------------------------------------------")
-
         println(io,"while 2 ")
         println(io,"xRa = ", xRand)
         println(io,"RCL = ", RCL)
