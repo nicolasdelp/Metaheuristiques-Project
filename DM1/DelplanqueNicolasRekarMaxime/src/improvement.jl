@@ -10,37 +10,65 @@ function greedyImprovement(C, A, x, zInit, io)
     zBest = zInit
     xTest = copy(xBest)
     zTest = zBest
-    bool = true
 
-    #On utilise première heuristique 0-1
-    zTest = zeroToOne!(C,A,xTest)
-    if(zTest > zBest)
-        xBest = copy(xTest)
-        println("Modification x et zBest")
-    else
-        println("zeroToOne non efficace")
-        xTest = copy(xBest)
+    stop1 = false
+    while(!stop1)
+        stop1 = true
+        stop2 = false
+        while(!stop2)
+            stop2 = true
+            zTest, xTest = twoToOne!(C,A,xBest,zBest,io) #meta 2-1
+            if(zTest > zBest) # si on réussit à modifier, on relancera toute la boucle.
+                xBest = copy(xTest)
+                zBest = zTest
+                stop1 = false
+                stop2 = false
+            else
+                xTest = copy(xBest)
+                zTest = zBest
+            end
+        end
+        #println(io, "2-1 : zBest = ",zBest)
+        #println(io,"xBest = ",xBest)
+
+        #On utilise seconde heuristique 1-1
+        stop2 = false
+        while(!stop2)
+            stop2 = true
+            zTest, xTest = oneToOne!(C,A,xBest,zBest, io) # meta 1-1
+            if(zTest > zBest)
+                xBest = copy(xTest)
+                zBest = zTest
+                stop1 = false
+                stop2 = false
+            else
+                xTest = copy(xBest)
+                zTest = zBest
+                
+            end
+        end
+        #println(io, "1-1 : zBest = ",zBest)
+        #println(io,"xBest = ",xBest)
+
+        #On utilise première heuristique 0-1
+        stop2 = false
+        while(!stop2)
+            zTest, xTest = zeroToOne!(C,A,xBest,zBest,io)
+            stop2 = true
+
+            if(zTest > zBest)
+                xBest = copy(xTest)
+                zBest = zTest
+                stop1 = false
+                stop2 = false
+            else
+                xTest = copy(xBest)
+                zTest = zBest
+            end
+        end
+
+        #println(io, "0-1 : zBest = ",zBest)
+        #println(io,"xBest = ",xBest)
     end
-
-    #On utilise seconde heuristique 1-1
-    zTest = oneToOne!(C,A,xTest,zInit, io)
-    if(zTest > zBest)
-        xBest = copy(xTest)
-        println("Modification x et zBest")
-    else
-        println("oneToOne non efficace")
-        xTest = copy(xBest)
-    end
-
-    #On utilise troisième heuristique 2-1
-    zTest = twoToOne!(C,A,xTest,zInit,io)
-    if(zTest > zBest)
-        xBest = copy(xTest)
-        println("Modification x et zBest")
-    else
-        println("twoToOne non efficace")
-        xTest = copy(xBest)
-    end
-
     return xBest, zBest
 end
