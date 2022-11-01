@@ -73,7 +73,7 @@ function twoToOne!(C,A,xInit,zInit,io)
                             if(zBest < zTest) # test si le xTest donnerait un meilleur résultat
                                 if(isPossible(A,xTest)) # test si xTest est possible
                                     xBest = copy(xTest) #sauvegarde de x et z si possible
-                                    zBest = z
+                                    zBest = zTest
                                 else
                                     xTest[j] = 0 #remise à 0 si impossible
                                 end

@@ -167,3 +167,21 @@ function isPossible(A, x)
 
     return possible
 end
+
+function plotAlphaRGRASP(iname, alphas, evolAlphas)
+    figure("Evolution d'alpha",figsize=(6,6)) # Create a new figure
+    title(string(" Evolutions probabilité d'alphas ", iname))
+    xlabel("Itérations")
+    ylabel("Probabilité")
+    ylim(0, 1)
+
+    colors = ["blue", "green", "red", "yellow", "purple"]
+    for i in 1:5
+        bar(collect(1:size(evolAlphas)[1]),evolAlphas[:,6-i],
+         color = colors[i],
+         edgecolor = "black")
+    end
+
+    savefig(string("_ALPHAS_",iname,".png"))
+    close()
+end

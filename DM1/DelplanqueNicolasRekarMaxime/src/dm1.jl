@@ -49,18 +49,40 @@ function main()
 
         # Load one numerical instance ------------------------------------------
         C, A = loadSPP(string(target,"/",fnames[instance]))
-        for i in 1:50
 
+        lZInit = zeros(0)
+        lZLs = zeros(0)
+        lZMax = zeros(0)
+
+        for i in 1:30
+        
             zInit = 0 ; zBest = 0 ; t1 =0.0 ; t2 = 0.0
             #println("C = ",C)
             #println("A = ",A)
 
             t1 = @elapsed x, zInit = greedyRandomizer(0 ,C, A,io)
             t2 = @elapsed xbest, zBest = greedyImprovement(C, A, x, zInit, io)
-            
-            # Saving results -------------------------------------------------------
-            println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)       
+
+            #pour plot
+            append!(lZInit,zInit)
+            append!(lZLs, zBest)
+            if((i)==1)
+                append!(lZMax,zBest)
+            elseif(lZMax[((size(lZMax)[1]))]<zBest)
+                append!(lZMax,zBest)
+            else
+                append!(lZMax,lZMax[(size(lZMax)[1])])
+            end
+
+            # # Saving results -------------------------------------------------------
+            println(io, fnames[instance], " ", zInit, " ", zBest, " ", t1, " ", t2, " ", t1+t2)               
         end
+
+        plotRunGrasp(string("_GRASP_",fnames[instance]),lZInit,lZLs,lZMax)
+
+        reactiveGRASP(C,A,fnames[instance],io)
+
+
         #println(io,"____________________________________________")
     end
     close(io)
