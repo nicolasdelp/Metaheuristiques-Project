@@ -58,8 +58,9 @@ function mutation(individu)
 end
 
 # Sélectionne le survivant entre 2 individus
-function survivor(p1, p2)
-    
+function survivor(child1, child2)
+
+    return child1
 end
 
 # Donne la nouvelle generation qui deviendra notre nouvelle population de base
@@ -67,8 +68,8 @@ function nextGeneration(newGen, populationSize)
     
 end
 
-# Sélectionne deux individus elites dans notre population
-function eliteIndividuals(population , populationSize)
+# Sélectionne le meilleur individu dans une population
+function bestIndividualIndex(population , populationSize)
 
 end
 
@@ -88,7 +89,30 @@ function geneticAlgorithm(C, A, fname,io)
             parent1 = parentSelection(population)
             parent2 = parentSelection(population)
             child1, child2 = crossover(parent1, parent2)
+            child1 = survivor(child1 , mutation(child1))
+            child2 = survivor(child2 , mutation(child2))
+
+            z = calculZ(C, child1)
+            feasible = isPossible(A, child1)
+            push!(newGen, (child1, z, feasible))
+
+            z = calculZ(C, child2)
+            feasible = isPossible(A, child2)
+            push!(newGen, (child2, z, feasible))
         end
+
+        population = nextGeneration(newGen, populationSize)
+    end
+
+    theBestIndex = bestIndividualIndex(population , populationSize)
+
+    if(theBestIndex != 0)
+        println("#####################")
+        println("CONFIGURATION ")
+        println("#####################")
+        println("Nombre de générations : ", generationNumber)
+        println("Nombre d'individus par population : ", populationSize)
+        println("Meilleur individu trouvé => ", population[theBestIndex])
     end
 end
 
