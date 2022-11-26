@@ -16,14 +16,14 @@ function populationCreation(C, A, populationSize)
         end
         if(isPossible(A, ind))
             zInd = calculZ(C, ind)
-            print("Individu n°", individu, " "); 
-            println("x = ", ind, "   z = ", zInd);
             feasibleNumber += 1
             maxZ = max(zInd, maxZ)
+            # print("Individu n°", individu, " "); 
+            # println("x = ", ind, "   z = ", zInd);
         end
         population[individu] = (ind, feasible)
     end
-    println("Nombre de sol. réalisable : ", feasibleNumber, " | Meilleur z = ", maxZ)
+    println("Nombre de solutions réalisables : ", feasibleNumber, "   Meilleur z = ", maxZ)
 
     return population
 end
@@ -70,7 +70,9 @@ end
 
 # Sélectionne le meilleur individu dans une population
 function bestIndividualIndex(population , populationSize)
+    bestIndex = 0
 
+    return bestIndex
 end
 
 #################################################################################################
