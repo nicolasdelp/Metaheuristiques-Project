@@ -18,7 +18,7 @@ include("../../../libSPP/librarySPP.jl")
 include("grasp.jl")
 
 function modelSPP(solveur, C, A)
-m, n = size(A) # dimensions de la matrice A
+    m, n = size(A) # dimensions de la matrice A
     
     # Création du modèle
     spp = Model(solveur)
