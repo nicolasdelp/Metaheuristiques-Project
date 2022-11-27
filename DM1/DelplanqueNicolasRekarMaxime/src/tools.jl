@@ -127,7 +127,7 @@ function calculZ(C, x)
     for i in 1:size(x)[2]
         z = z + (x[1,i]*C[i])
     end
-
+    
     return z
 end
 
