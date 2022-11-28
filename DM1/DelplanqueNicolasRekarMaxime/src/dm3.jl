@@ -23,14 +23,14 @@ function main()
     println("Etudiants : Delplanque Nicolas et Rekar Maxime")
 
     for instance = 1:length(fnames)
-        for i in 1:5
+        for i in 1:1
             # Chargement de l'instance
             C, A = loadSPP(string(target,"/",fnames[instance]))
             
             # BATTEZ VOUS !!!
             # reactiveGRASP(C, A, fnames[instance], io)
             # Population = 100 doit être un multiple de 2
-            geneticAlgorithm(C, A, 20, 100, 0.6, 0.05, fnames[instance], io)
+            geneticAlgorithm(C, A, 50, 100, 0.6, 0.05, fnames[instance], io)
         end
     end
     close(io)

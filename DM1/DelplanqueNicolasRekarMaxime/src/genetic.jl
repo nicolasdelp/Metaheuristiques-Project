@@ -16,6 +16,7 @@ function geneticAlgorithm(C, A, generationNumber, populationSize, Pc, Pm, fname,
         for replication = 1:Int(populationSize/2)
             parent1, parent2 = parentSelection(population)
             child1, child2 = crossover(C, A, Pc, parent1, parent2)
+
             child1, zChild1, isFeasibleChild1 = survivor(child1 , mutation(C, A, Pm, child1))
             child2, zChild2, isFeasibleChild2 = survivor(child2 , mutation(C, A, Pm, child2))
             push!(newGen, (child1, zChild1, isFeasibleChild1))

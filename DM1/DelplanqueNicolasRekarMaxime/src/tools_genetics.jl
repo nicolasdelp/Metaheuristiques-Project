@@ -6,18 +6,15 @@ function populationCreation(C, A, populationSize,io)
     zBest = 0
     
     for i in 1:populationSize
-        if (i <= populationSize*0.05)
-            x, zInit = greedyRandomizer(1,C,A,io)
-            xBest, zBest = greedyImprovement(C, A, x, zInit, io)
-        elseif (i <= populationSize*0.4)
-            x, zInit = greedyRandomizer(0.5,C,A,io)
-            xBest, zBest = greedyImprovement(C, A, x, zInit, io)
-        else
-            x, zInit = greedyRandomizer(0.1,C,A,io)
-            xBest, zBest = greedyImprovement(C, A, x, zInit, io)
-        end
-        maxZ = max(zBest,maxZ)
-        population[i] = (xBest, zBest, true)
+        # if (i <= populationSize*0.05)
+        #     x, zInit = greedyRandomizer(1,C,A,io)
+        # elseif (i <= populationSize*0.4)
+            x, zInit = greedyRandomizer(0,C,A,io)
+        # else
+        #     x, zInit = greedyRandomizer(0.1,C,A,io)
+        # end
+        maxZ = max(zInit,maxZ)
+        population[i] = (x, zInit, true)
     end
 
     println(" Meilleur z = ", maxZ )
@@ -26,6 +23,21 @@ end
 
 # Sélectionne un parent dans la population
 function parentSelection(population)    
+    sum = 0
+    for i in 1:size(population)[1]
+        sum += population[i][2]
+    end
+    listIndProb = []
+    sum2 = 0
+    for i in 1:size(population)[1]
+        append!(listIndProb,population[i][2]/sum)
+        sum2 += listIndProb[i]
+    end
+    if(sum2 > 1.0)
+        listIndProb[size(population)[1]] = listIndProb[size(population)[1]]-(1-sum2)
+    end
+    
+
     parent1, z1, feasible1 = population[1]
     parent2, z2, feasible2 = population[2]
     index1, index2 = 1, 2
@@ -115,22 +127,22 @@ function mutation(C, A, Pm, individu)
 end
 
 # Sélectionne le survivant entre 2 individus
-function survivor(child, mutatedChild)
-    ind1, zChild, isFeasibleChild = child
-    ind2, zMutatedChild, isFeasibleMutatedChild = mutatedChild
+function survivor(child1, child2)
+    ind1, zChild1, isFeasibleChild1 = child1
+    ind2, zChild2, isFeasibleChild2 = child2
 
-    if(isFeasibleChild)
-        if(isFeasibleMutatedChild)
-            if(zChild > zMutatedChild)
-                return (ind1, zChild, isFeasibleChild)
+    if(isFeasibleChild1)
+        if(isFeasibleChild2)
+            if(zChild1 > zChild2)
+                return (ind1, zChild1, isFeasibleChild1)
             else
-                return (ind2, zMutatedChild, isFeasibleMutatedChild)
+                return (ind2, zChild2, isFeasibleChild2)
             end
         else 
-            return (ind1, zChild, isFeasibleChild)
+            return (ind1, zChild1, isFeasibleChild1)
         end
     else
-        return (ind2, zMutatedChild, isFeasibleMutatedChild)
+        return (ind2, zChild2, isFeasibleChild2)
     end    
 end
 
