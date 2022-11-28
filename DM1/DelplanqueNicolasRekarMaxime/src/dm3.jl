@@ -1,14 +1,16 @@
-import Pkg; 
-Pkg.add("JuMP")
-Pkg.add("GLPK")
-Pkg.add("PyPlot")
-using PyPlot
-using JuMP
+# import Pkg; 
+# Pkg.add("JuMP")
+# Pkg.add("GLPK")
+# Pkg.add("PyPlot")
+# using PyPlot
+# using JuMP
 
 include("tools.jl")
 include("neighbors.jl")
 include("../../../libSPP/librarySPP.jl")
 
+include("grasp.jl")
+include("improvement.jl")
 include("reactiveGRASP.jl") # Première Métaheuristique
 include("genetic.jl") # Seconde Métaheuristique
 include("tools_genetics.jl")
@@ -28,7 +30,7 @@ function main()
             # BATTEZ VOUS !!!
             # reactiveGRASP(C, A, fnames[instance], io)
             # Population = 100 doit être un multiple de 2
-            geneticAlgorithm(C, A, 20, 100, 0.6, 0.2, fnames[instance], io)
+            geneticAlgorithm(C, A, 20, 100, 0.6, 0.05, fnames[instance], io)
         end
     end
     close(io)

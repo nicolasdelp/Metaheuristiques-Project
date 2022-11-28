@@ -1,37 +1,27 @@
 # Crée une population d'individus
-function populationCreation(C, A, populationSize)
+function populationCreation(C, A, populationSize,io)
     population = Vector(undef, populationSize)
-    feasibleNumber = 0
     maxZ = 0
-
-    for individu = 1:populationSize
-        feasible = false
-        zInd = -1
-        s = size(C)[1]
-        x = zeros(1, s)
-        
-        randomOne = rand(0:s)
-        listOne = []
-        index = -1    
-        for i in 1:randomOne
-            while(!issubset(index, listOne))
-                index = rand(1:s)
-                append!(listOne,index)
-                x[index] = 1
-            end
+    xBest = []
+    zBest = 0
+    
+    for i in 1:populationSize
+        if (i <= populationSize*0.05)
+            x, zInit = greedyRandomizer(1,C,A,io)
+            xBest, zBest = greedyImprovement(C, A, x, zInit, io)
+        elseif (i <= populationSize*0.4)
+            x, zInit = greedyRandomizer(0.5,C,A,io)
+            xBest, zBest = greedyImprovement(C, A, x, zInit, io)
+        else
+            x, zInit = greedyRandomizer(0.1,C,A,io)
+            xBest, zBest = greedyImprovement(C, A, x, zInit, io)
         end
-        
-        zInd = calculZ(C, x)
-        if(isPossible(A, x))
-            feasibleNumber += 1
-            feasible = true
-            maxZ = max(zInd, maxZ)
-        end
-        population[individu] = (x, zInd, feasible)
+        maxZ = max(zBest,maxZ)
+        population[i] = (xBest, zBest, true)
     end
-    println("Nombre de solutions réalisables : ", feasibleNumber, "   Meilleur z = ", maxZ)
 
-    return population, feasibleNumber
+    println(" Meilleur z = ", maxZ )
+    return population, populationSize
 end
 
 # Sélectionne un parent dans la population
@@ -44,7 +34,7 @@ function parentSelection(population)
         ind, z, feasible = population[i]
         
         if(feasible && z > z2)
-            if(z > z1) # Donc devient parent 1
+            if(z > z1) # Donc devient parent 1, actuel parent 1 devient parent 2
                 parent2, z2, feasible2 = parent1, z1, feasible1
                 index2 = index1
                 parent1, z1, feasible1 = population[i]
@@ -69,17 +59,27 @@ end
 function crossover(C, A, Pc, parent1, parent2)
     ind1, zInd1, feasibleInd1 = parent1
     ind2, zInd2, feasibleInd2 = parent2
-    
-    if(rand() <= Pc)
-        crossoverPoint = trunc(Int, round(size(C)[1]/2)) # On coupe au "milieu"
-        child1 = zeros(1, size(C)[1])
-        child2 = zeros(1, size(C)[1])
-        firstCrossover = vcat(ind1[1:crossoverPoint], ind2[crossoverPoint:size(C)[1]])
-        secondCrossover = vcat(ind2[1:crossoverPoint], ind1[crossoverPoint:size(C)[1]])
+    child1 = copy(ind1)
+    child2 = copy(ind2)
 
-        for i = 1:size(C)[1]
-            child1[i] = firstCrossover[i] 
-            child2[i] = secondCrossover[i] 
+
+    if(rand() <= Pc)
+        stop = false
+        listCross = []
+        i = 1
+        
+
+        while(!stop)
+            index = rand(1:size(child1)[1])
+            if(!issubset(index, listCross))
+                temp = child1[index]
+                child1[index]=child2[index]
+                child2[index] = temp
+
+                append!(listCross,index)
+                stop = (rand()<= 1/i^0.7)
+                i += 1
+            end
         end
     else
         child1, child2 = ind1, ind2
@@ -88,28 +88,27 @@ function crossover(C, A, Pc, parent1, parent2)
     return (child1, calculZ(C, child1), isPossible(A, child1)), (child2, calculZ(C, child2), isPossible(A, child2))
 end
 
-# Effectue la mutation d'un individu (Mutation en 2 points a et b)
+# Effectue la mutation d'un individu (Mutation en 1 point, et 10% de chances de répeter sur un autre point)
 function mutation(C, A, Pm, individu)
     ind, z , feasible = individu
     if(rand() <= Pm)
-        a = rand(1:size(C)[1])
-        b = rand(1:size(C)[1])
-
-        if(a != b)
-            if ind[a] == 0
-                ind[a] = 1
-            else
-                ind[a] = 0
+        stop = false
+        listMut = []
+        i=1
+        while (!stop)
+            index = rand(1:size(C)[1])
+            if(!issubset(index,listMut))
+                if ind[index] == 0
+                    ind[index] = 1
+                else
+                    ind[index] = 0
+                end
+                append!(listMut,index)
+                stop = (0.9>=rand())
+                i = i +1
             end
-
-            if ind[b] == 0
-                ind[b] = 1
-            else
-                ind[b] = 0
-            end
-        else
-            return mutation(C, A, Pm, individu)
         end
+            
     end
 
     return (ind, calculZ(C, ind) , isPossible(A,ind))

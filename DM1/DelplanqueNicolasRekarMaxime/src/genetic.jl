@@ -5,7 +5,7 @@ function geneticAlgorithm(C, A, generationNumber, populationSize, Pc, Pm, fname,
 
     while(feasibleNb<=2)
         i = i + 1
-        population, feasibleNb = populationCreation(C, A, populationSize)
+        population, feasibleNb = populationCreation(C, A, populationSize,io)
         println(io, i , " " ,feasibleNb)
     end
 
