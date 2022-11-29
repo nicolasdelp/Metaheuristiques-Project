@@ -114,7 +114,7 @@ function crossover(C, A, Pc, parent1, parent2)
                 child2[index] = temp
 
                 append!(listCross,index)
-                stop = (rand()<= 1/i^0.7)
+                stop = (rand()<= 1/(2*i))
                 i += 1
             end
         end
@@ -141,7 +141,7 @@ function mutation(C, A, Pm, individu)
                     ind[index] = 0
                 end
                 append!(listMut,index)
-                stop = (0.9>=rand())
+                stop = (Pm<=rand())
                 i = i +1
             end
         end
