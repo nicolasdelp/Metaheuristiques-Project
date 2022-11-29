@@ -55,6 +55,7 @@ function reactiveGRASP(C,A,fname,io)
             t2 = @elapsed xTry, zTry = greedyImprovement(C, A, x, zConstr, io)
             
             #pour plot
+            
             append!(lZInit,zConstr)
             append!(lZLs, zTry)
             if((i*j)==1)
@@ -101,6 +102,10 @@ function reactiveGRASP(C,A,fname,io)
             end
         end    
     end
+    println(io, "===========================")
+            println(io, "RGRASP_ZMax = ",lZMax[size(lZMax)[1]])
+            println(io, "temps d'exec = ",t1+t2)
     plotRunGrasp(string("_RGRASP_",fname),lZInit,lZLs,lZMax)
     plotAlphaRGRASP(fname,alphas,pEv)
+    return lZMax[size(lZMax)[1]], (t1 + t2)
 end

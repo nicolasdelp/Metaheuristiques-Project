@@ -10,6 +10,7 @@ using PyPlot
 using JuMP
 
 include("tools.jl")
+include("tools_plot.jl")
 include("neighbors.jl")
 include("construction.jl")
 include("improvement.jl")
