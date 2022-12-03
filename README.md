@@ -7,3 +7,6 @@ Métaheuristiques (XII2030) - Prof. Xavier Gandibleux
 
 ## Devoir maison n°2
 ### Métaheuristique GRASP sur le “Set Packing Problem (SPP)”
+
+## Devoir maison n°3
+### Battle of metaheuristics
